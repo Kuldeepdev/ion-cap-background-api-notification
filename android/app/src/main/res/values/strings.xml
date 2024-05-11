@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ion-cap-background-api-notification</string>
+    <string name="title_activity_main">ion-cap-background-api-notification</string>
+    <string name="package_name">ion.cap.background.api.notification</string>
+    <string name="custom_url_scheme">ion.cap.background.api.notification</string>
+</resources>

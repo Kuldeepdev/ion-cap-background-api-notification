@@ -1,0 +1,7 @@
+{
+  "name": "ion-cap-background-api-notification",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
