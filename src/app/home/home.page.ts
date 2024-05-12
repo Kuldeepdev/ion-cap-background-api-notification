@@ -4,6 +4,7 @@ import { RefresherCustomEvent, IonHeader, IonToolbar, IonTitle, IonContent, IonR
 import { MessageComponent } from '../message/message.component';
 
 import { DataService, Message } from '../services/data.service';
+import { BackgroundRunner } from '@capacitor/background-runner';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,9 @@ import { DataService, Message } from '../services/data.service';
 })
 export class HomePage {
   private data = inject(DataService);
-  constructor() {}
+  constructor() {
+    this.init();
+  }
 
   refresh(ev: any) {
     setTimeout(() => {
@@ -25,4 +28,27 @@ export class HomePage {
   getMessages(): Message[] {
     return this.data.getMessages();
   }
+
+  // Request permissions for background tasks
+  async init() {
+    try {
+      const permissions = await BackgroundRunner.requestPermissions({
+        apis: ['notifications','geolocation'],
+      });
+      this.getMessageBySeniorCitizen();
+    } catch (err) {
+      console.log(`ERROR: ${err}`);
+    }
+  }
+
+  async getMessageBySeniorCitizen(){
+    const result = await BackgroundRunner.dispatchEvent({
+      label: 'ion.cap.background.api.notification.apinotification',
+      event: 'getMessageBySeniorCitizen',
+      details: {},
+    });
+    this.data.addMessage(result);
+    this.getMessageBySeniorCitizen();
+  }
+
 }
